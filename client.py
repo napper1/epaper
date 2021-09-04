@@ -90,8 +90,8 @@ class EpaperClient(object):
     def draw_weather(self, draw):
         """Parse weather JSON and output weather forecast for the next 7 days"""
         forecast = self.get_weather()
-        self.logger.debug(forecast)
-        syslog.syslog(syslog.LOG_INFO, forecast)
+        self.logger.debug(str(forecast))
+        syslog.syslog(syslog.LOG_INFO, str(forecast))
         start_x = 300
         start_y = 25
         for day in forecast:
