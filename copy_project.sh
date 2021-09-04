@@ -1,0 +1,1 @@
+scp -r ~/projects/epaper pi@192.168.1.17:/home/pi/Documents/epaper

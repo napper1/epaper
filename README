@@ -1,0 +1,3 @@
+A small project to display data to my e-ink display connected to my Raspberry Pi 3.
+
+Goal: Display the weather, a simple chart and possibly today's calendar events on the display.

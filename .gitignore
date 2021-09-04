@@ -1,0 +1,6 @@
+.idea
+__pycache__
+client_test.py
+ideas.txt
+media/output.png
+.envrc
