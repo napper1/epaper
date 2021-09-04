@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 
 from constants import WEATHER_FORECAST_JSON
+import settings
 
 
 class WeatherClient(object):
@@ -43,25 +44,26 @@ class WeatherClient(object):
         Supports: current, minutely. hourly. daily, alerts all in one JSON
         These can be excluded.
         """
+        if settings.DEBUG:
+            # for debugging
+            return WEATHER_FORECAST_JSON
+
         diff_minutes = None
         if self.last_update:
             difference = datetime.now() - self.last_update
             diff_minutes = difference.total_seconds() / 60
         if diff_minutes is None or diff_minutes > 60:
             # call API
-            pass
-            # url = f"{self.base_url}/onecall?lat={self.latitude}&lon={self.longitude}&exclude={self.exclude}&units=metric&appid={self.api_key}"
-            # response = requests.get(url)
-            # if response.ok:
-            #     return response.json()
-            # self.weather_json = response.json()
-            # return {}
+            url = f"{self.base_url}/onecall?lat={self.latitude}&lon={self.longitude}&exclude={self.exclude}&units=metric&appid={self.api_key}"
+            response = requests.get(url)
+            if response.ok:
+                return response.json()
+            self.weather_json = response.json()
             self.last_update = datetime.now()
+            return {}
         else:
-            # use the last saved
-            # return self.weather_json
-            pass
-        return WEATHER_FORECAST_JSON
+            # return the last saved JSON
+            return self.weather_json
 
     def get_weather_forecast_list(self):
         """

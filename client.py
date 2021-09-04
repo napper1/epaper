@@ -1,4 +1,3 @@
-import socket
 import sys
 import os
 import logging
@@ -7,17 +6,14 @@ from PIL import Image, ImageDraw, ImageFont
 import datetime
 import pytz
 from weather import WeatherClient
+import settings
 
-if socket.gethostname() == os.getenv("PRODUCTION_HOSTNAME"):
-    DEBUG = False
-else:
-    DEBUG = True
-if not DEBUG:
+if not settings.DEBUG:
     from lib.waveshare_epd import epd7in5_V2
 
 
 class EpaperClient(object):
-    debug = DEBUG
+    debug = settings.DEBUG
     screen_width = 800
     screen_height = 480
     logging.basicConfig(level=logging.DEBUG)
@@ -50,15 +46,17 @@ class EpaperClient(object):
         if self.debug and not os.path.exists(self.local_file_dir):
             os.mkdir(self.local_file_dir)
         self.setup()
+        self.weather_client = WeatherClient()
 
     def setup(self):
-        if not DEBUG:
+        if not self.debug:
             self.epd = epd7in5_V2.EPD()
             logging.info("init and Clear")
             self.epd.init()
             self.epd.Clear()
             self.screen_width = self.epd.width
             self.screen_height = self.epd.height
+            print(self.screen_width, self.screen_height)
 
     def get_time(self):
         tz = pytz.timezone(os.getenv("TIMEZONE"))
@@ -119,7 +117,7 @@ class EpaperClient(object):
         """Full-refresh every 60 mins since e-ink display shouldn't be refreshed quickly."""
         while True:
             image = self.draw()
-            if DEBUG:
+            if self.debug:
                 # display in an image file
                 local_file = "{}/output.png".format(self.local_file_dir)
                 logging.info(local_file)
@@ -142,8 +140,7 @@ class EpaperClient(object):
         """
         Return weather JSON for use in display
         """
-        weather = WeatherClient()
-        forecast = weather.get_weather_forecast_list()
+        forecast = self.weather_client.get_weather_forecast_list()
         return forecast
 
     def draw_chart(self, draw):
@@ -192,6 +189,6 @@ except IOError as e:
 except KeyboardInterrupt:
     logging.info("ctrl + c:")
     logging.info("Clear...")
-    if not DEBUG:
+    if not settings.DEBUG:
         client.clear()
     exit()
