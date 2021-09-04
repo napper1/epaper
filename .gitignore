@@ -4,3 +4,6 @@ client_test.py
 ideas.txt
 media/output.png
 .envrc
+fabfile.py
+deploy
+deploy.sh
