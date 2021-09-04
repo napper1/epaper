@@ -30,11 +30,9 @@ class EpaperClient(object):
     fonts_dir = os.path.join(project_dir, "fonts")
     local_file_dir = os.path.join(project_dir, "media")
     small_font = ImageFont.truetype(os.path.join(fonts_dir, "OpenSans-Regular.ttf"), 16)
-    font_awesome = ImageFont.truetype(
-        os.path.join(fonts_dir, "fonts/fa-regular-400.ttf"), 30
-    )
+    font_awesome = ImageFont.truetype(os.path.join(fonts_dir, "fa-regular-400.ttf"), 30)
     font_awesome_solid = ImageFont.truetype(
-        os.path.join(fonts_dir, "fonts/fa-solid-900.ttf"), 30
+        os.path.join(fonts_dir, "fa-solid-900.ttf"), 30
     )
     # font awesome icons
     # Most use FA Solid instead of regular. See FA docs
