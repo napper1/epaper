@@ -52,14 +52,14 @@ class WeatherClient(object):
         if self.last_update:
             difference = datetime.now() - self.last_update
             diff_minutes = difference.total_seconds() / 60
-        if diff_minutes is None or diff_minutes > 60:
+        if diff_minutes is None or diff_minutes > 59:
             # call API
             url = f"{self.base_url}/onecall?lat={self.latitude}&lon={self.longitude}&exclude={self.exclude}&units=metric&appid={self.api_key}"
             response = requests.get(url)
-            if response.ok:
-                return response.json()
             self.weather_json = response.json()
             self.last_update = datetime.now()
+            if response.ok:
+                return response.json()
             return {}
         else:
             # return the last saved JSON

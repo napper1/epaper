@@ -11,12 +11,12 @@ E-Paper Waveshare instructions: https://www.waveshare.com/wiki/7.5inch_e-Paper_H
 
 # Python 3 Libraries
 
-sudo apt-get update
-sudo apt-get install python3-pip
-sudo apt-get install python3-pil
-sudo apt-get install python3-numpy
-sudo pip3 install RPi.GPIO
-sudo pip3 install spidev
+`sudo apt-get update`
+`sudo apt-get install python3-pip`
+`sudo apt-get install python3-pil`
+`sudo apt-get install python3-numpy`
+`sudo pip3 install RPi.GPIO`
+`sudo pip3 install spidev`
 
 # Usage
 

@@ -1,6 +1,8 @@
 import sys
 import os
 import logging
+import logging.handlers
+import syslog
 import time
 from PIL import Image, ImageDraw, ImageFont
 import datetime
@@ -16,7 +18,10 @@ class EpaperClient(object):
     debug = settings.DEBUG
     screen_width = 800
     screen_height = 480
-    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger("MyLogger")
+    logger.setLevel(logging.DEBUG)
+    handler = logging.handlers.SysLogHandler(address="/dev/log")
+    logger.addHandler(handler)
     # if DEBUG:
     project_dir = os.path.join(
         os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "epaper"
@@ -85,6 +90,8 @@ class EpaperClient(object):
     def draw_weather(self, draw):
         """Parse weather JSON and output weather forecast for the next 7 days"""
         forecast = self.get_weather()
+        self.logger.debug(forecast)
+        syslog.syslog(syslog.LOG_INFO, forecast)
         start_x = 300
         start_y = 25
         for day in forecast:
