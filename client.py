@@ -7,6 +7,8 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 import datetime
 import pytz
+
+from currencies import CryptoClient
 from weather import WeatherClient
 import settings
 
@@ -84,7 +86,7 @@ class EpaperClient(object):
         self.draw_weather(draw)
 
         # todo: Add chart
-        # self.draw_chart(draw)
+        self.draw_chart(draw)
         return image
 
     def draw_weather(self, draw):
@@ -154,13 +156,16 @@ class EpaperClient(object):
         """
         Create a line chart given a bunch of x and y points
         """
-        # todo: get a bunch of prices over a period of time for BTC, say last 7 days and draw a line graph
-        # x axis is time (in days)
-        # y axis is price
-        x = [0, 50, 100, 150, 200, 250, 300]
-        # todo: plug in last 7 hours of BTC prices here
-        prices = [61000, 59000, 63000, 64000, 65000, 66000, 67000]
-        # convert prices to a number in the range 0 - 300
+        # x axis: time (in days)
+        # y axis:  price
+        # x axis - get list of 24 numbers from start (0) to the end (width of screen)
+        x = []
+        for val in range(90, 691, 30):
+            x.append(val)
+        # prices = [61000, 59000, 63000, 64000, 65000, 66000, 67000]
+        api = CryptoClient()
+        prices = api.get_btc_prices()
+        # y-axis: convert prices to a number in the range of your x-axis
         y = []
         for price in prices:
             y.append(self.get_compressed_value(price, prices))
@@ -179,8 +184,9 @@ class EpaperClient(object):
         old_max = max(prices)
         old_min = min(prices)
         old_range = old_max - old_min
-        new_max = 200
-        new_min = 100
+        # all numbers in the y-axis are between these two ranges
+        new_max = 400
+        new_min = 300
         new_range = new_max - new_min
         new_value = (((price - old_min) * new_range) / old_range) + new_min
         # the new value now needs to be reversed to go in the right direction on the display

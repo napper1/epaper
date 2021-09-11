@@ -20,5 +20,5 @@ E-Paper Waveshare instructions: https://www.waveshare.com/wiki/7.5inch_e-Paper_H
 
 # Usage
 
-Start display
-`python3 client.py`
+Start display and run process in the background
+`nohup python3 client.py &`
