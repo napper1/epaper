@@ -21,4 +21,8 @@ E-Paper Waveshare instructions: https://www.waveshare.com/wiki/7.5inch_e-Paper_H
 # Usage
 
 Start display and run process in the background
-`nohup python3 client.py &`
+1. Activate virtualenv if used 
+2. `nohup python3 client.py &`
+
+# Dev testing
+Running `python3 client.py` on dev machine will open an image of the drawing for debugging.

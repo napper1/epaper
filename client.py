@@ -85,8 +85,9 @@ class EpaperClient(object):
         # display weather from weather API
         self.draw_weather(draw)
 
-        # todo: Add chart
-        self.draw_chart(draw)
+        # display line chart of BTC prices
+        # self.draw_chart(draw)
+
         return image
 
     def draw_weather(self, draw):
