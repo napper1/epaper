@@ -195,14 +195,16 @@ class EpaperClient(object):
         return new_value
 
 
-client = EpaperClient()
-try:
-    client.display()
-except IOError as e:
-    logging.info(e)
-except KeyboardInterrupt:
-    logging.info("ctrl + c:")
-    logging.info("Clear...")
-    if not settings.DEBUG:
-        client.clear()
-    exit()
+if __name__ == "__main__":
+    client = EpaperClient()
+    try:
+        client.display()
+    except IOError as e:
+        logging.info(e)
+    except KeyboardInterrupt:
+        logging.info("ctrl + c:")
+        logging.info("Clear...")
+        if not settings.DEBUG:
+            client.clear()
+        print("exiting due to keyboard interrupt")
+        exit()
